@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
     <body>
 
-        <h1>My name is <span th:text="${loggedinUser}"></span></h1>
+        <h1>My name is <span th:text="${loggedInUser}"></span></h1>
+        
+        <ul>
+        	<li th:each="user : ${currentUsers}">
+        		<a th:href="@{/message/{loggedInUser}/{recipient}(loggedInUser=${loggedInUser},recipient=${user.name})}">
+        			<font th:text="${user.name}"></font>
+        		</a>
+        	</li>
+        
+        </ul>
+        
+        <a th:href="@{/possibleConversations}">Add New Conversation</a>
 
     </body>
 </html>

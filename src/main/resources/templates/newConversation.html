@@ -7,5 +7,15 @@
 </head>
 <body>
 
+	Add user:
+	<br>
+	<ul>
+		<li th:each="user : ${allUsers}">
+			<a th:href="@{/conversationAdd/{userId}(userId=${user.id})}"> <font th:text="${user.name}"></font></a>
+		</li>
+	</ul>
+	
+	<a th:href="@{/account}">Home</a>
+
 </body>
 </html>
