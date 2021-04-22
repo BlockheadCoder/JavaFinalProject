@@ -11,7 +11,7 @@ function connect(){
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame){
         console.log("Connected: "+frame);
-        stompClient.subscribe('/socketOut/'+myId, function (data){
+        stompClient.subscribe('/socketOut/'+myId+'/'+recId, function (data){
             console.log(data);
             var body = JSON.parse(data.body)
             $(".messageHolder").append('<div><h3>'+body.message+'</h3></div>');
@@ -29,7 +29,6 @@ function disconnect(){
 
 function sendMessage() {
 
-    userId = $("#userId").val();
     message = $("#message").val();
 
     $(".messageHolder").append('<div class="myMessage"><h3>'+message+'</h3></div>');
