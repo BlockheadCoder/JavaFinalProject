@@ -19,14 +19,12 @@ public class MessageSocket {
 	private SimpMessagingTemplate simpMessagingTemplate;
 	
 	@MessageMapping("/usermessages/")
-	public Message message(
-			Message mesIn
-			) throws Exception{
+	public Message message(Message mesIn) throws Exception{
 		
 		System.out.println("Got it: "+mesIn.getMessage());
 		System.out.println(mesIn.toString());
-		System.out.println("Sending to "+"/socketOut/"+mesIn.getReceiverId());
-		simpMessagingTemplate.convertAndSend("/socketOut/"+mesIn.getReceiverId(), mesIn);
+		System.out.println("Sending to "+"/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId());
+		simpMessagingTemplate.convertAndSend("/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId(), mesIn);
 		
 		return new Message("hello");
 	}
