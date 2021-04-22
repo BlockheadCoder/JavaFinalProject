@@ -20,6 +20,7 @@ function connect(){
     });
 }
 
+
 function disconnect(){
     if(stompClient !== null){
         stompClient.disconnect();
