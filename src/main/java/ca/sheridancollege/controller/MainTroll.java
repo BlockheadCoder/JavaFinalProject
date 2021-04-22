@@ -25,7 +25,7 @@ public class MainTroll {
 		model.addAttribute("myId",name);
 		model.addAttribute("recId",recipient);
 		
-		return "index.html";
+		return "message.html";
 	}
 		
 }
