@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	Add user:
+	<br>
+	
+    <form action="/conversationAdd" method="POST">
+        <ul style="list-style-type: none;">
+        	<li th:each="user : ${allUsers}">
+        		<input type="submit" name="name" th:value="${user.name}">
+        	</li>
+       
+       	</ul>
+    </form>
+
+	<a th:href="@{/account}">Home</a>
+
+</body>
+</html>
