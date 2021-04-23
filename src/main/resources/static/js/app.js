@@ -24,7 +24,6 @@ function disconnect(){
     }
 }
 
-
 function sendMessage() {
 
     message = $("#message").val();
@@ -33,11 +32,16 @@ function sendMessage() {
 	
 	var d = $("#messageHolder");
     d.scrollTop(d.prop("scrollHeight"));
-    
+
+    console.log("hello");
+    let today = new Date();
+
     stompClient.send("/app/usermessages/", {}, JSON.stringify(
         {'message': message,
         'senderId': myId,
-        'receiverId': recId}
-        ))
-    
+        'receiverId': recId,
+        'seen': false,
+        'created_at': today
+        }
+    ))
 }

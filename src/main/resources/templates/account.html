@@ -14,10 +14,10 @@
         <form action="/message" method="POST">
               <ul style="list-style-type: none;">
 	        	<li th:each="user : ${currentUsers}">
-	        		<input type="submit" name="recipientName" th:value="${user.name}">
+	        		<input type="submit" name="recipientName" th:value="${user.email}">
 	        	</li>
 	        	<li th:if="${newUser != null}">
-	        		<input type="submit" name="recipientName" th:value="${newUser.name}">
+	        		<input type="submit" name="recipientName" th:value="${newUser.email}">
 	        	</li>
         	</ul>
         </form>

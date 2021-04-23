@@ -9,15 +9,15 @@ import ca.sheridancollege.beans.User;
 
 public interface UserRepo extends CrudRepository<User, Integer>{
 
-	public User findByName(String name);
+	public User findByEmail(String email);
 	
-	@Query(value = "select distinct u.user_id, u.email, u.password " 
+	@Query(value = "select distinct u.user_id, u.email, u.password, u.name " 
 			+ "from public.user u "
 			+ "inner join public.messages m "
 			+ "on u.user_id = m.\"receiverId\" "
 			+ "where m.\"senderId\" = ?1 "
 			+ "union "
-			+ "select distinct u.user_id, u.email, u.password " 
+			+ "select distinct u.user_id, u.email, u.password, u.name " 
 			+ "from public.user u "
 			+ "inner join public.messages m "
 			+ "on u.user_id = m.\"senderId\" "

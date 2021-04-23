@@ -44,7 +44,7 @@ public class MainTroll {
 		
 		model.addAttribute("loggedInUser", authentication.getName());
 		
-		User loggedInUser = userRepo.findByName(authentication.getName());
+		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		model.addAttribute("currentUsers", 
 				userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()));
 		
@@ -60,7 +60,7 @@ public class MainTroll {
 	@GetMapping("/possibleConversations")
 	public String conversationAdd(Authentication authentication, Model model) {
 
-		User loggedInUser = userRepo.findByName(authentication.getName());
+		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		
 		List<User> allUsers = new ArrayList<User>();
 		Iterator<User> iteratorAllUsers = userRepo.findAll().iterator();
@@ -85,12 +85,12 @@ public class MainTroll {
 	@PostMapping("/conversationAdd")
 	public String conversationAddForm(@RequestParam String name, Model model, Authentication authentication) {
 		
-		User newUser = userRepo.findByName(name);
+		User newUser = userRepo.findByEmail(name);
 		
 		model.addAttribute("newUser", newUser);
 		model.addAttribute("loggedInUser", authentication.getName());
 		
-		User loggedInUser = userRepo.findByName(authentication.getName());
+		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		model.addAttribute("currentUsers", 
 				userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()));
 		
@@ -106,8 +106,15 @@ public class MainTroll {
 	@PostMapping("/message")
 	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
 		
-		model.addAttribute("myId",authentication.getName());
-		model.addAttribute("recId",recipientName);
+		//UPDATED
+		User myself = userRepo.findByEmail(authentication.getName());
+		User yourself = userRepo.findByEmail(recipientName);
+		
+		model.addAttribute("myId", myself.getId()); 
+		model.addAttribute("recId", yourself.getId());
+		
+		model.addAttribute("myName", myself.getName());
+		model.addAttribute("yourName", yourself.getName());
 		
 		return "message.html";
 	}

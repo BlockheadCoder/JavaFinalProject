@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/possibleConversations", "/possibleConversations/**").hasRole("ARTIST")
 				.antMatchers("/conversationAdd", "/conversationAdd/**").hasRole("ARTIST")
-				.antMatchers("/account", "/account/**").hasAnyRole("ARTIST","CUSTOMER")
+				.antMatchers("/account", "/account/**", "/message").hasAnyRole("ARTIST","CUSTOMER")
 				.antMatchers("/", "/css/**", "/images/**", "/js/**", "/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
