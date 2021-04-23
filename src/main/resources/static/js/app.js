@@ -34,4 +34,10 @@ function sendMessage() {
 	var d = $("#messageHolder");
     d.scrollTop(d.prop("scrollHeight"));
     
+    stompClient.send("/app/usermessages/", {}, JSON.stringify(
+        {'message': message,
+        'senderId': myId,
+        'receiverId': recId}
+        ))
+    
 }
