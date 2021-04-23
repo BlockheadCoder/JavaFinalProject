@@ -25,5 +25,15 @@
         	<span>Message:</span> <input type="text" id="message" />
         	<input type="button" value="Send Message" onclick="sendMessage()">
         </div>
+        
+        <div>
+        	<a th:href="@{/account}">Home</a>
+        </div>
+        
+        <br>
+        	
+        <form th:action="@{/logout}" method="POST">
+			<input type="submit" id="logout-submit" name="logout-submit" value="Log Out">
+		</form>
     </body>
 </html>
