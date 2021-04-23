@@ -1,4 +1,4 @@
-package ca.sheridancollege.configurations;
+package ca.sheridancollege.security;
 
 import java.io.IOException;
 

@@ -1,7 +1,6 @@
 package ca.sheridancollege.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,30 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ca.sheridancollege.beans.Role;
+import ca.sheridancollege.beans.Message;
 import ca.sheridancollege.beans.User;
-import ca.sheridancollege.repository.RoleRepo;
+import ca.sheridancollege.repository.MessageRepo;
 import ca.sheridancollege.repository.UserRepo;
 
-import ca.sheridancollege.dao.DataAccessObject;
 
 @Controller
-public class MainTroll {
+public class MainController {
 	
 	@Autowired
 	@Lazy
 	private UserRepo userRepo;
-
+	
 	@Autowired
-	private RoleRepo roleRepo;
+	private MessageRepo mRepo;
 	
 	@GetMapping("/")
 	public String homeTroll() {
@@ -40,7 +36,7 @@ public class MainTroll {
 	}
 	
 	@GetMapping("/account")
-	public String account(Authentication authentication, Model model) {
+	public String goAccountPage(Authentication authentication, Model model) {
 		
 		model.addAttribute("loggedInUser", userRepo.findByEmail(authentication.getName()).getName());
 		
@@ -58,7 +54,7 @@ public class MainTroll {
 	}
 	
 	@GetMapping("/possibleConversations")
-	public String conversationAdd(Authentication authentication, Model model) {
+	public String goConversationAddPage(Authentication authentication, Model model) {
 
 		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		
@@ -83,7 +79,7 @@ public class MainTroll {
 	}
 	
 	@PostMapping("/conversationAdd")
-	public String conversationAddForm(@RequestParam String name, Model model, Authentication authentication) {
+	public String conversationAdd(@RequestParam String name, Model model, Authentication authentication) {
 		
 		User newUser = userRepo.findByEmail(name);
 		
@@ -104,9 +100,8 @@ public class MainTroll {
 	}
 	
 	@PostMapping("/message")
-	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
+	public String goMessagingPage(Authentication authentication, @RequestParam String recipientName, Model model){
 		
-		//UPDATED
 		User myself = userRepo.findByEmail(authentication.getName());
 		User yourself = userRepo.findByEmail(recipientName);
 		
@@ -115,6 +110,10 @@ public class MainTroll {
 		
 		model.addAttribute("myName", myself.getName());
 		model.addAttribute("yourName", yourself.getName());
+		
+		//THOMAS UPDATE
+		List<Message> allMessages = mRepo.getAllMessagesForSenderAndReciever(myself.getId(), yourself.getId());
+		model.addAttribute("allMessages", allMessages);
 		
 		return "message.html";
 	}
@@ -133,9 +132,4 @@ public class MainTroll {
 	public String accessDenied() {
 		return "accessdenied.html";
 	}
-	
-	private String encodePassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(password);
-	}	
 }

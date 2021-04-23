@@ -1,4 +1,4 @@
-package ca.sheridancollege.configurations;
+package ca.sheridancollege.security;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import ca.sheridancollege.beans.Role;
-import ca.sheridancollege.dao.DataAccessObject;
 import ca.sheridancollege.repository.UserRepo;
 
 @Service
@@ -29,10 +28,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("User " + username + " was not found in the database");
-		}
-
-		if (!DataAccessObject.checkUsernamePassword(username, user.getPassword())) {	
-			throw new UsernameNotFoundException("Wrong Password!");
 		}
 		
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
