@@ -26,13 +26,13 @@
                 <h3 th:text="${myId}"></h3>
                 <hr>
                 
-                <div class="messageLeft" th:if="${message.receiverId==1}">
+                <div class="messageLeft" th:if="${message.receiverId==myId}">
                     <div class="sentMessage" id="theirMessage">
                         <h3 th:text="${message.message}"></h3>
                     </div>
                 </div>
 
-                <div class="messageRight" th:if="${message.senderId == myId}">
+                <div class="messageRight" th:if="${message.senderId==myId}">
                     <div class="sentMessage" id="myMessage">
                         <h3 th:text="${message.message}"></h3>
                     </div>
