@@ -11,10 +11,13 @@ function connect(){
             var body = JSON.parse(data.body)
             $("#messageHolder").append('<div id="messageLeft"><div class="sentMessage" id="theirMessage"><h3>'+body.message+'</h3></div></div>');
 
-			var d = $(".messageHolder");
+			var d = $("#messageHolder");
     		d.scrollTop(d.prop("scrollHeight"));
         });
     });
+    
+    var d = $("#messageHolder");
+    d.scrollTop(d.prop("scrollHeight"));
 }
 
 
@@ -31,7 +34,7 @@ function sendMessage() {
 
     $("#messageHolder").append('<div id="messageRight"><div class="sentMessage" id="myMessage"><h3>'+message+'</h3></div></div>');
 
-	var d = $(".messageHolder");
+	var d = $("#messageHolder");
     d.scrollTop(d.prop("scrollHeight"));
 
     console.log("hello");

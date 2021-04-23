@@ -1,16 +1,11 @@
 package ca.sheridancollege.comparators;
 
 import java.util.Date;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.Comparator;
-import java.util.Locale;
 
 import ca.sheridancollege.beans.Message;
 
+/* not currently used/necessary, may be helpful in the future */
 public class MessageCreatedAtSorter implements Comparator<Message>{
 
 	@Override
