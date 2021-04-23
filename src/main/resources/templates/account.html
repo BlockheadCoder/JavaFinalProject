@@ -9,16 +9,17 @@
 
         <h1>My name is <span th:text="${loggedInUser}"></span></h1>
         
-        <ul>
-        	<li th:each="user : ${currentUsers}">
-        		<a th:href="@{/message/{loggedInUser}/{recipient}(loggedInUser=${loggedInUser},recipient=${user.name})}">
-        			<font th:text="${user.name}"></font>
-        		</a>
-        	</li>
+        <form action="/message" method="POST">
+              <ul>
+	        	<li th:each="user : ${currentUsers}">
+	        		<input type="submit" name="recipientName" th:value="${user.name}">
+	        	</li>
         
-        </ul>
+        	</ul>
+        </form>
         
-        <a th:href="@{/possibleConversations}">Add New Conversation</a>
-
+        <div th:if="${artist != null}">
+        	<a th:href="@{/possibleConversations}">Add New Conversation</a>
+		</div>
     </body>
 </html>

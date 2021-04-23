@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,27 +29,41 @@ public class MainTroll {
 	private List<User> allUsers = new ArrayList<User>();
 	private List<User> currentUsers = new ArrayList<User>();
 	
-	private String loggedInUser = "Roman";
-	
 	@GetMapping("/")
 	public String homeTroll() {
+		
+		System.out.println("here");
 		
 		currentUsers.clear();
 		allUsers.clear();
 		
+		userRepo.deleteAll();
+		
+		userRepo.saveAll(Arrays.asList(new User[] {
+				User.builder().id(1).name("Artist").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
+				User.builder().id(2).name("Customer").password(encodePassword("123")).type(User.UserType.ROLE_CUSTOMER).build()
+		}));
+		
 		currentUsers.addAll(Arrays.asList(new User[] {
-				User.builder().id(0).name("Thomas").type(User.UserType.ARTIST).build(),
-				User.builder().id(1).name("Roman").type(User.UserType.ARTIST).build()
-			}));
+				User.builder().id(3).name("Thomas").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
+				User.builder().id(4).name("Roman").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build()
+		}));
 		
 		allUsers.addAll(Arrays.asList(new User[] {
-				User.builder().id(2).name("Fern").type(User.UserType.ARTIST).build(),
-				User.builder().id(3).name("Andy").type(User.UserType.CUSTOMER).build()
+				User.builder().id(5).name("Fern").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
+				User.builder().id(6).name("Andy").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build()
 		}));
 		
 		allUsers.addAll(currentUsers);
 		
+		userRepo.saveAll(allUsers);
+		
 		return "login.html";
+	}
+	
+	private String encodePassword(String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(password);
 	}
 	
 	@GetMapping("/error")
@@ -54,35 +71,23 @@ public class MainTroll {
 		return "redirect:/login";
 	}
 	
-	@PostMapping("/login")
-	public String login(
-			@RequestParam("username") String name,
-			@RequestParam("password") String password,
-			Model model) {
-		
-		if(DataAccessObject.checkUsernamePassword(name, password)) {	
-			System.out.println("Name: "+name);
-			
-			
-			for (User user : allUsers) {
-				if (user.getName().equals(name)) {
-					
-					return "redirect:/account";
-				}
-			}
-		}
-		
-		model.addAttribute("loginFailure", false);
-		
+	@GetMapping("/login")
+	public String login() {
 		return "redirect:/";
 	}
 	
 	@GetMapping("/account")
-	public String account(Model model) {
+	public String account(Authentication authentication, Model model) {
 		
-		model.addAttribute("loggedInUser", loggedInUser);
+		model.addAttribute("loggedInUser", authentication.getName());
 		model.addAttribute("currentUsers", currentUsers);
 		
+		for (GrantedAuthority ga: authentication.getAuthorities()) {
+			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
+				model.addAttribute("artist", "artist");
+			}
+		}
+
 		return "account.html";
 	}
 	
@@ -99,34 +104,24 @@ public class MainTroll {
 		
 		for (User user : allUsers) {
 			if (user.getId() == userId) {
-				currentUsers.add(user);
+				if (!currentUsers.contains(user)) {
+					currentUsers.add(user);
+				}
+
 				break;
 			}
 		}
 		
 		return "redirect:/account";
 	}
-
-	/*
-	@GetMapping("/message")
-	public String message(@RequestParam("loggedInUser") String name,@RequestParam("recipient") String recipient, Model model) {
-		
-		model.addAttribute("myId",name);
-		model.addAttribute("recId",recipient);
-		
-		return "message.html";
-	}
-	*/
 	
-	@GetMapping("/message/{loggedInUser}/{recipient}")
-	public String message2(@PathVariable("loggedInUser") String name, @PathVariable("recipient") String recipient, Model model) {
+	@PostMapping("/message")
+	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
 		
-		model.addAttribute("myId",name);
-		model.addAttribute("recId",recipient);
+		model.addAttribute("myId",authentication.getName());
+		model.addAttribute("recId",recipientName);
 		
 		return "message.html";
 	}
-
-
 		
 }

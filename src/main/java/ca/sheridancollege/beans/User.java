@@ -19,11 +19,14 @@ public class User {
 	private Integer id;
 	
 	public enum UserType {
-		CUSTOMER,
-		ARTIST
+		ROLE_CUSTOMER,
+		ROLE_ARTIST
 	}
 	
+	@Column(unique = true)
 	private String name;
+	
+	private String password;
 	
 	private UserType type;
 		
