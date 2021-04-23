@@ -1,0 +1,79 @@
+.messageHolder{
+	overflow-y: scroll;
+    border: 1px solid black;
+    background-color: #e8edff;
+    height: 500px;
+}
+            
+.messageHolder::-webkit-scrollbar-track{
+	border-radius: 10px;
+}
+            
+.messageHolder::-webkit-scrollbar{
+    width: 15px;
+    background: #F5F5F5;
+}
+            
+.messageHolder::-webkit-scrollbar-thumb{
+     background: #debbaf;
+     border-radius: 10px;
+}
+
+.myMessage{
+	font: message-box;
+    background: #afded3;
+    width: 40%;
+    margin: 1% 2% 1% 2%;
+    padding: 0px 15px;
+    text-align: right;
+    border-radius: 10px;
+}
+            
+.theirMessage{
+	font: message-box;
+    background: #ececec;
+    width: 40%;
+    margin: 1% 2% 1% 2%;
+    padding: 0px 15px;
+    border-radius: 10px;
+}
+            
+ .messageRight{
+ 	display: flex; 
+    justify-content: flex-end;
+}
+            
+.messageLeft{
+	display: flex;
+	justify-content: flex-start;
+ }
+			
+h1 {
+	line-height: 50%;
+}
+			
+input {
+	margin: 5px;
+}
+			
+h1, input, span {
+	font-family: Lucida Sans Unicode;
+}
+			
+#message {
+	padding: 5px;
+}
+			
+#message:focus, input[type=button] {
+	background-color: #afded3;
+}
+			
+input[type=button] {
+	height: 30px;
+	border-radius: 5px;
+}
+			
+#right{
+	position: absolute;
+  	right: 0px;
+}
