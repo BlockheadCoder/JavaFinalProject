@@ -16,6 +16,11 @@
 				<span>Invalid Username or Password</span>
 			</div>
 		</div>
+		<div th:if="${param.logout}">
+			<div class="warning">
+				<span>You Have Logged Out</span>
+			</div>
+		</div>
     
         <form action="/login" method="POST">
             <span> Username: </span> <input class="alignLeft" type="email" name="username" id="username"></br>

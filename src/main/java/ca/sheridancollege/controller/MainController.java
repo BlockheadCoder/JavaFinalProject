@@ -127,6 +127,11 @@ public class MainController {
 		return "login.html";
 	}
 	
+	@GetMapping("/logout")
+	public String logOut() {
+		return "login.html";
+	}
+	
 	@GetMapping("/accessdenied")
 	public String accessDenied() {
 		return "accessdenied.html";

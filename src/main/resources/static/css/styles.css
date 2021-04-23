@@ -105,6 +105,10 @@ ul{
 	color: red;
 }
 
+.warning {
+	color: orange;
+}
+
 img{
 	width: 400px;
 }
