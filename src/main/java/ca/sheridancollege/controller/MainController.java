@@ -35,7 +35,7 @@ public class MainController {
 		return "login.html";
 	}
 	
-	@GetMapping("/account")
+	@GetMapping("/conversations")
 	public String goConversationPage(Authentication authentication, Model model) {
 		
 		model.addAttribute("loggedInUser", userRepo.findByEmail(authentication.getName()).getName());
@@ -46,7 +46,11 @@ public class MainController {
 		
 		for (GrantedAuthority ga: authentication.getAuthorities()) {
 			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
-				model.addAttribute("artist", "artist");
+				model.addAttribute("artist", "Artist");
+				model.addAttribute("role", "Artist");
+			}
+			else if ("ROLE_CUSTOMER".equals(ga.getAuthority())){
+				model.addAttribute("role", "Customer");
 			}
 		}
 
@@ -92,7 +96,11 @@ public class MainController {
 		
 		for (GrantedAuthority ga: authentication.getAuthorities()) {
 			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
-				model.addAttribute("artist", "artist");
+				model.addAttribute("artist", "Artist");
+				model.addAttribute("role", "Artist");
+			}
+			else if ("ROLE_CUSTOMER".equals(ga.getAuthority())){
+				model.addAttribute("role", "Customer");
 			}
 		}
 

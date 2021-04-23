@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
-<title>Add New Coversation</title>
+<title>Add New Conversation</title>
 <link rel="stylesheet" type="text/css" medial="all" th:href="@{/css/styles.css}" />
 </head>
 <body>
@@ -11,9 +11,6 @@
 	<img src="/images/logo.png" alt="Logo">
 	<h1>Start a New Conversation</h1> <br>
 	<h3>Pick a Customer</h3>
-	
-	<span>Add user:</span>
-	<br>
 	
     <form action="/conversationAdd" method="POST">
         <ul style="list-style-type: none;">
@@ -25,7 +22,7 @@
     </form>
 
 	<div>
-        <a th:href="@{/account}">Home</a>
+        <a th:href="@{/conversations}">Home</a>
     </div> <br>
         	
      <form th:action="@{/logout}" method="POST">
