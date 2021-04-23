@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="ISO-8859-1">
         <title>Insert title here</title>
@@ -11,18 +11,29 @@
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/sockjs-client/sockjs.min.js"></script>
         <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        <link rel="stylesheet" type="text/css" medial="all" th:href="@{/css/styles.css}" />
     </head>
     <body onload="connect()">
 
         <h1>You are [[${myName}]]</h1>
         <h1>Sending to [[${yourName}]]</h1>
         
-        <div class="messageHolder" id="messageHolder">
+        <div id="messageHolder">
         </div>
         
         <div id="right">
         	<span>Message:</span> <input type="text" id="message" />
         	<input type="button" value="Send Message" onclick="sendMessage()">
         </div>
+        
+        <div>
+        	<a th:href="@{/account}">Home</a>
+        </div>
+        
+        <br>
+        	
+        <form th:action="@{/logout}" method="POST">
+			<input type="submit" id="logout-submit" name="logout-submit" value="Log Out">
+		</form>
     </body>
 </html>
