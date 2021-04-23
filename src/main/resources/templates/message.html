@@ -15,36 +15,38 @@
     </head>
     <body onload="connect()">
 
-        <h1>You are [[${myName}]]</h1>
-        <h1>Sending to [[${yourName}]]</h1>
-        
-        <div id="messageHolder">
-        	<th:block th:each="message: ${allMessages}">                
-                <div id="messageLeft" th:if="${message.receiverId==myId}">
-                    <div class="sentMessage" id="theirMessage">
-                        <h3 th:text="${message.message}"></h3>
-                    </div>
-                </div>
-
-                <div id="messageRight" th:if="${message.senderId==myId}">
-                    <div class="sentMessage" id="myMessage">
-                        <h3 th:text="${message.message}"></h3>
-                    </div>
-                </div>
-            </th:block>
-        </div>
-        
-        <div id="right">
-        	<span>Message:</span> <input type="text" id="message" />
-        	<input type="button" value="Send Message" onclick="sendMessage()">
-        </div>
-        
-        <div>
-        	<a th:href="@{/account}">Home</a>
-        </div> <br>
-        
-        <form th:action="@{/logout}" method="POST">
-			<input type="submit" id="logout-submit" name="logout-submit" value="Log Out">
-		</form>
+		<div class="alignLeft">
+	        <h1>You are [[${myName}]]</h1>
+	        <h1>Sending to [[${yourName}]]</h1>
+	        
+	        <div id="messageHolder">
+	        	<th:block th:each="message: ${allMessages}">                
+	                <div id="messageLeft" th:if="${message.receiverId==myId}">
+	                    <div class="sentMessage" id="theirMessage">
+	                        <h3 th:text="${message.message}"></h3>
+	                    </div>
+	                </div>
+	
+	                <div id="messageRight" th:if="${message.senderId==myId}">
+	                    <div class="sentMessage" id="myMessage">
+	                        <h3 th:text="${message.message}"></h3>
+	                    </div>
+	                </div>
+	            </th:block>
+	        </div>
+	        
+	        <div id="right">
+	        	<span>Message:</span> <input type="text" id="message" />
+	        	<input type="button" value="Send Message" onclick="sendMessage()">
+	        </div>
+	        
+	        <div>
+	        	<a th:href="@{/account}">Home</a>
+	        </div> <br>
+	        
+	        <form th:action="@{/logout}" method="POST">
+				<input type="submit" id="logout-submit" name="logout-submit" value="Log Out">
+			</form>
+		</div>
     </body>
 </html>

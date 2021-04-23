@@ -1,5 +1,10 @@
-* {
+body {
 	font-family: Lucida Sans Unicode;
+	text-align: center;
+}
+
+.alignLeft {
+	text-align: left;
 }
 
 #messageHolder{
@@ -74,15 +79,21 @@ input[type=button], input[type=submit]{
 
 input[type=button]:hover, input[type=submit]:hover{
 	background-color: white;
+	cursor:pointer;
 }
 
 input[type=button]:active, input[type=submit]:active{
   background-color: #afded3;
+  cursor:pointer;
 }
 
 input[type=button]{
 	height: 40px;
 	text-align: center;
+}
+
+ul{
+	padding-left: 0;
 }
 			
 #right{
@@ -96,4 +107,12 @@ input[type=button]{
 
 img{
 	width: 400px;
+}
+
+a {
+	color:blue;
+}
+
+a:hover {
+	color: purple;
 }

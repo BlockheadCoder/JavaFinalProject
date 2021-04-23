@@ -20,15 +20,11 @@ public class MessageSocket {
 	@MessageMapping("/usermessages/")
 	public Message message(Message mesIn) throws Exception{
 		
-		System.out.println("Got it: "+mesIn.getMessage());
-		System.out.println(mesIn.toString());
-		System.out.println("Sending to "+"/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId());
 		simpMessagingTemplate.convertAndSend("/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId(), mesIn);
 		
-		//db insert goes here
 		mRepo.save(mesIn);
 		
-		return new Message("hello");
+		return new Message("Message Created!");
 	}
 	
 }

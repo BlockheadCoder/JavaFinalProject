@@ -31,12 +31,12 @@ public class MainController {
 	private MessageRepo mRepo;
 	
 	@GetMapping("/")
-	public String homeTroll() {
+	public String homeController() {
 		return "login.html";
 	}
 	
 	@GetMapping("/account")
-	public String goAccountPage(Authentication authentication, Model model) {
+	public String goConversationPage(Authentication authentication, Model model) {
 		
 		model.addAttribute("loggedInUser", userRepo.findByEmail(authentication.getName()).getName());
 		
@@ -50,7 +50,7 @@ public class MainController {
 			}
 		}
 
-		return "account.html";
+		return "conversations.html";
 	}
 	
 	@GetMapping("/possibleConversations")
@@ -84,7 +84,7 @@ public class MainController {
 		User newUser = userRepo.findByEmail(name);
 		
 		model.addAttribute("newUser", newUser);
-		model.addAttribute("loggedInUser", authentication.getName());
+		model.addAttribute("loggedInUser", userRepo.findByEmail(authentication.getName()).getName());
 		
 		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		model.addAttribute("currentUsers", 
@@ -96,7 +96,7 @@ public class MainController {
 			}
 		}
 
-		return "account.html";
+		return "conversations.html";
 	}
 	
 	@PostMapping("/message")
@@ -111,7 +111,6 @@ public class MainController {
 		model.addAttribute("myName", myself.getName());
 		model.addAttribute("yourName", yourself.getName());
 		
-		//THOMAS UPDATE
 		List<Message> allMessages = mRepo.getAllMessagesForSenderAndReciever(myself.getId(), yourself.getId());
 		model.addAttribute("allMessages", allMessages);
 		
@@ -125,7 +124,7 @@ public class MainController {
 	
 	@GetMapping("/login")
 	public String login() {
-		return "redirect:/";
+		return "login.html";
 	}
 	
 	@GetMapping("/accessdenied")

@@ -29,7 +29,7 @@ public class Message {
 	private int receiverId;
 	
 	private Boolean seen;
-	private Date created_at; //changed to date
+	private Date created_at;
 	
 	public Message(String input, int senderId, int receiverId) {
 		this.message = input;

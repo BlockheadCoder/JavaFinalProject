@@ -16,7 +16,7 @@
 	<br>
 	
     <form action="/conversationAdd" method="POST">
-        <ul style="list-style-type: none;">
+        <ul style="list-style-type: none;" class="alignLeft">
         	<li th:each="user : ${allUsers}">
         		<input type="submit" name="name" th:value="${user.email}">
         	</li>
