@@ -5,11 +5,13 @@
     <title>Insert title here</title>
     </head>
     <body>
-        <form action="/login" method="post">
-
-            <h6 th:if="!loginFailure">
-                <p>Login Failed. Try again idiot</p>
-            </h6>
+    	<div th:if="${param.error}">
+			<div class="alert">
+				Invalid Username or Password
+			</div>
+		</div>
+    
+        <form action="/login" method="POST">
 
             Username: <input type="text" name="username" id="username"></br>
             Password: <input type="text" name="password" id="password"></br>

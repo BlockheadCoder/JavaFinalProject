@@ -1,9 +1,4 @@
-
-
 var stompClient = null;
-
-
-
 
 function connect(){
     var socket = new SockJS('/messages-websocket');
