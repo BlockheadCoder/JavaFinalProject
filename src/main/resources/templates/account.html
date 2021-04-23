@@ -14,6 +14,9 @@
 	        	<li th:each="user : ${currentUsers}">
 	        		<input type="submit" name="recipientName" th:value="${user.name}">
 	        	</li>
+	        	<li th:if="${newUser != null}">
+	        		<input type="submit" name="recipientName" th:value="${newUser.name}">
+	        	</li>
         
         	</ul>
         </form>

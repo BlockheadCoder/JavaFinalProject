@@ -26,44 +26,73 @@ public class MainTroll {
 	@Autowired
 	private UserRepo userRepo;
 	
-	private List<User> allUsers = new ArrayList<User>();
-	private List<User> currentUsers = new ArrayList<User>();
-	
 	@GetMapping("/")
 	public String homeTroll() {
-		
-		System.out.println("here");
-		
-		currentUsers.clear();
-		allUsers.clear();
-		
-		userRepo.deleteAll();
-		
-		userRepo.saveAll(Arrays.asList(new User[] {
-				User.builder().id(1).name("Artist").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
-				User.builder().id(2).name("Customer").password(encodePassword("123")).type(User.UserType.ROLE_CUSTOMER).build()
-		}));
-		
-		currentUsers.addAll(Arrays.asList(new User[] {
-				User.builder().id(3).name("Thomas").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
-				User.builder().id(4).name("Roman").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build()
-		}));
-		
-		allUsers.addAll(Arrays.asList(new User[] {
-				User.builder().id(5).name("Fern").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build(),
-				User.builder().id(6).name("Andy").password(encodePassword("123")).type(User.UserType.ROLE_ARTIST).build()
-		}));
-		
-		allUsers.addAll(currentUsers);
-		
-		userRepo.saveAll(allUsers);
+		List<User> test = userRepo.getUsersInConversationWithLoggedInUser(1);
+		for (User u : test) {
+			System.out.println(u);
+		}
 		
 		return "login.html";
 	}
 	
-	private String encodePassword(String password) {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder.encode(password);
+	@GetMapping("/account")
+	public String account(Authentication authentication, Model model) {
+		
+		model.addAttribute("loggedInUser", authentication.getName());
+		
+		User loggedInUser = userRepo.findByName(authentication.getName());
+		model.addAttribute("currentUsers", 
+				userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()));
+		
+		/* ALWAYS ACTIVE RIGHT NOW */
+		for (GrantedAuthority ga: authentication.getAuthorities()) {
+			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
+				model.addAttribute("artist", "artist");
+			}
+		}
+
+		return "account.html";
+	}
+	
+	@GetMapping("/possibleConversations")
+	public String conversationAdd(Model model) {
+		model.addAttribute("allUsers", userRepo.findAll()); 
+		//TODO: restrict current user from list
+		
+		//TODO: need a check to ensure user isn't already in user's convo list
+		//      use getUsersInConversationWithLoggedInUser
+		return "newConversation.html";
+	}
+	
+	@GetMapping("/conversationAdd/{userId}")
+	public String conversationAddForm(@PathVariable int userId, Model model, Authentication authentication) {
+		
+		User newUser = userRepo.findById(userId).get();
+		
+		model.addAttribute("newUser", newUser);
+		model.addAttribute("loggedInUser", authentication.getName());
+		
+		User loggedInUser = userRepo.findByName(authentication.getName());
+		model.addAttribute("currentUsers", 
+				userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()));
+		
+		for (GrantedAuthority ga: authentication.getAuthorities()) {
+			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
+				model.addAttribute("artist", "artist");
+			}
+		}
+
+		return "account.html";
+	}
+	
+	@PostMapping("/message")
+	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
+		
+		model.addAttribute("myId",authentication.getName());
+		model.addAttribute("recId",recipientName);
+		
+		return "message.html";
 	}
 	
 	@GetMapping("/error")
@@ -76,52 +105,8 @@ public class MainTroll {
 		return "redirect:/";
 	}
 	
-	@GetMapping("/account")
-	public String account(Authentication authentication, Model model) {
-		
-		model.addAttribute("loggedInUser", authentication.getName());
-		model.addAttribute("currentUsers", currentUsers);
-		
-		for (GrantedAuthority ga: authentication.getAuthorities()) {
-			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
-				model.addAttribute("artist", "artist");
-			}
-		}
-
-		return "account.html";
-	}
-	
-	@GetMapping("/possibleConversations")
-	public String conversationAdd(Model model) {
-		
-		model.addAttribute("allUsers", allUsers);
-		
-		return "newConversation.html";
-	}
-	
-	@GetMapping("/conversationAdd/{userId}")
-	public String conversationAddForm(@PathVariable int userId, Model model) {
-		
-		for (User user : allUsers) {
-			if (user.getId() == userId) {
-				if (!currentUsers.contains(user)) {
-					currentUsers.add(user);
-				}
-
-				break;
-			}
-		}
-		
-		return "redirect:/account";
-	}
-	
-	@PostMapping("/message")
-	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
-		
-		model.addAttribute("myId",authentication.getName());
-		model.addAttribute("recId",recipientName);
-		
-		return "message.html";
-	}
-		
+	private String encodePassword(String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(password);
+	}	
 }
