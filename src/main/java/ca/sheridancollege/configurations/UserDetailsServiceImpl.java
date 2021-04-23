@@ -36,7 +36,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
 
-		grantList.add(new SimpleGrantedAuthority(user.getType().name()));
+		//NEEDS UPDATING
+		grantList.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
 
 		UserDetails userDetails = (UserDetails)new User(user.getName(), user.getPassword(), grantList);
 		

@@ -22,14 +22,9 @@ public class User {
 
 	@Column(name="email", unique=true)
 	private String name;
-
-	public enum UserType {
-		ROLE_CUSTOMER,
-		ROLE_ARTIST
-	}
 	
 	private String password;
 	
-	private UserType type;
+	private String role;
 		
 }
