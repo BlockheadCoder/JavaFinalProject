@@ -12,19 +12,21 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Builder
+@Table(name="\"user\"")
 public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private Integer id;
-	
+
+	@Column(name="email", unique=true)
+	private String name;
+
 	public enum UserType {
 		ROLE_CUSTOMER,
 		ROLE_ARTIST
 	}
-	
-	@Column(unique = true)
-	private String name;
 	
 	private String password;
 	
