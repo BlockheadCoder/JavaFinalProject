@@ -42,7 +42,7 @@ public class MainTroll {
 	@GetMapping("/account")
 	public String account(Authentication authentication, Model model) {
 		
-		model.addAttribute("loggedInUser", authentication.getName());
+		model.addAttribute("loggedInUser", userRepo.findByEmail(authentication.getName()).getName());
 		
 		User loggedInUser = userRepo.findByEmail(authentication.getName());
 		model.addAttribute("currentUsers", 

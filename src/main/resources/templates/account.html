@@ -3,11 +3,14 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Home</title>
+<link rel="stylesheet" type="text/css" medial="all" th:href="@{/css/styles.css}" />
 </head>
     <body>
+    	<img src="/images/logo.png" alt="Logo">
 
-        <h1>My name is <span th:text="${loggedInUser}"></span></h1>
+        <h1>Welcome <span th:text="${loggedInUser}"></span></h1> <br>
+        <h3>Your Active Conversations</h3>
         
         <form action="/message" method="POST">
               <ul style="list-style-type: none;">
