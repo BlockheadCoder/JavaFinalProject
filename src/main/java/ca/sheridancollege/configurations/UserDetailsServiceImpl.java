@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.dao.DataAccessObject;
 import ca.sheridancollege.repository.UserRepo;
 
@@ -33,11 +34,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (!DataAccessObject.checkUsernamePassword(username, user.getPassword())) {	
 			throw new UsernameNotFoundException("Wrong Password!");
 		}
-
+		
 		List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-
-		//NEEDS UPDATING
-		grantList.add(new SimpleGrantedAuthority("ROLE_ARTIST"));
+		for (Role role:  user.getRoles()) {
+			grantList.add(new SimpleGrantedAuthority(role.getName()));
+		}
 
 		UserDetails userDetails = (UserDetails)new User(user.getName(), user.getPassword(), grantList);
 		

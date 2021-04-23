@@ -2,9 +2,11 @@ package ca.sheridancollege.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.beans.User;
+import ca.sheridancollege.repository.RoleRepo;
 import ca.sheridancollege.repository.UserRepo;
 
 import ca.sheridancollege.dao.DataAccessObject;
@@ -24,15 +28,14 @@ import ca.sheridancollege.dao.DataAccessObject;
 public class MainTroll {
 	
 	@Autowired
+	@Lazy
 	private UserRepo userRepo;
+
+	@Autowired
+	private RoleRepo roleRepo;
 	
 	@GetMapping("/")
 	public String homeTroll() {
-		List<User> test = userRepo.getUsersInConversationWithLoggedInUser(1);
-		for (User u : test) {
-			System.out.println(u);
-		}
-		
 		return "login.html";
 	}
 	
@@ -45,7 +48,6 @@ public class MainTroll {
 		model.addAttribute("currentUsers", 
 				userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()));
 		
-		/* ALWAYS ACTIVE RIGHT NOW */
 		for (GrantedAuthority ga: authentication.getAuthorities()) {
 			if ("ROLE_ARTIST".equals(ga.getAuthority())) {
 				model.addAttribute("artist", "artist");
@@ -56,19 +58,34 @@ public class MainTroll {
 	}
 	
 	@GetMapping("/possibleConversations")
-	public String conversationAdd(Model model) {
-		model.addAttribute("allUsers", userRepo.findAll()); 
-		//TODO: restrict current user from list
+	public String conversationAdd(Authentication authentication, Model model) {
+
+		User loggedInUser = userRepo.findByName(authentication.getName());
 		
-		//TODO: need a check to ensure user isn't already in user's convo list
-		//      use getUsersInConversationWithLoggedInUser
+		List<User> allUsers = new ArrayList<User>();
+		Iterator<User> iteratorAllUsers = userRepo.findAll().iterator();
+		while(iteratorAllUsers.hasNext()) {
+			allUsers.add(iteratorAllUsers.next());
+		}
+		
+		Iterator<User> iteratorConversationUsers = userRepo.getUsersInConversationWithLoggedInUser(loggedInUser.getId()).iterator();
+		while(iteratorConversationUsers.hasNext()) {
+			User user = iteratorConversationUsers.next();
+			if (allUsers.contains(user)) {
+				allUsers.remove(user);
+			}
+		}
+		allUsers.remove(loggedInUser);
+		
+		model.addAttribute("allUsers", allUsers); 
+		
 		return "newConversation.html";
 	}
 	
-	@GetMapping("/conversationAdd/{userId}")
-	public String conversationAddForm(@PathVariable int userId, Model model, Authentication authentication) {
+	@PostMapping("/conversationAdd")
+	public String conversationAddForm(@RequestParam String name, Model model, Authentication authentication) {
 		
-		User newUser = userRepo.findById(userId).get();
+		User newUser = userRepo.findByName(name);
 		
 		model.addAttribute("newUser", newUser);
 		model.addAttribute("loggedInUser", authentication.getName());
@@ -103,6 +120,11 @@ public class MainTroll {
 	@GetMapping("/login")
 	public String login() {
 		return "redirect:/";
+	}
+	
+	@GetMapping("/accessdenied")
+	public String accessDenied() {
+		return "accessdenied.html";
 	}
 	
 	private String encodePassword(String password) {
