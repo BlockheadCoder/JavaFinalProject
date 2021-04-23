@@ -1,4 +1,4 @@
-package comparators;
+package ca.sheridancollege.comparators;
 
 import java.util.Date;
 import java.text.DateFormat;

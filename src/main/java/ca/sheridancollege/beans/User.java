@@ -24,8 +24,9 @@ public class User {
 	private Integer id;
 
 	@Column(name="email", unique=true)
-	private String name;
+	private String email;
 	
+	private String name;
 	private String password;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)

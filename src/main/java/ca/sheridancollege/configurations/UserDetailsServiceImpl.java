@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		ca.sheridancollege.beans.User user = userRepo.findByName(username);
+		ca.sheridancollege.beans.User user = userRepo.findByEmail(username);
 		
 		if (user == null) {
 			throw new UsernameNotFoundException("User " + username + " was not found in the database");
@@ -40,7 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			grantList.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
-		UserDetails userDetails = (UserDetails)new User(user.getName(), user.getPassword(), grantList);
+		UserDetails userDetails = (UserDetails)new User(user.getEmail(), user.getPassword(), grantList);
 		
 		return userDetails;
 	}
