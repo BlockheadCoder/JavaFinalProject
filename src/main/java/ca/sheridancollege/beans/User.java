@@ -1,5 +1,8 @@
 package ca.sheridancollege.beans;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -17,7 +20,7 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name="user_id")
 	private Integer id;
 
 	@Column(name="email", unique=true)
@@ -25,6 +28,12 @@ public class User {
 	
 	private String password;
 	
-	private String role;
-		
+	@ManyToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+            )
+	private List<Role> roles = new ArrayList<Role>();
+	
 }

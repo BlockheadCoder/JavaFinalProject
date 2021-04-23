@@ -9,12 +9,16 @@
 
 	Add user:
 	<br>
-	<ul>
-		<li th:each="user : ${allUsers}">
-			<a th:href="@{/conversationAdd/{userId}(userId=${user.id})}"> <font th:text="${user.name}"></font></a>
-		</li>
-	</ul>
 	
+    <form action="/conversationAdd" method="POST">
+        <ul style="list-style-type: none;">
+        	<li th:each="user : ${allUsers}">
+        		<input type="submit" name="name" th:value="${user.name}">
+        	</li>
+       
+       	</ul>
+    </form>
+
 	<a th:href="@{/account}">Home</a>
 
 </body>

@@ -11,16 +11,16 @@ public interface UserRepo extends CrudRepository<User, Integer>{
 
 	public User findByName(String name);
 	
-	@Query(value = "select distinct u.id, u.email, u.password, u.role " 
+	@Query(value = "select distinct u.user_id, u.email, u.password " 
 			+ "from public.user u "
 			+ "inner join public.messages m "
-			+ "on u.id = m.\"receiverId\" "
+			+ "on u.user_id = m.\"receiverId\" "
 			+ "where m.\"senderId\" = ?1 "
 			+ "union "
-			+ "select distinct u.id, u.email, u.password, u.role " 
+			+ "select distinct u.user_id, u.email, u.password " 
 			+ "from public.user u "
 			+ "inner join public.messages m "
-			+ "on u.id = m.\"senderId\" "
+			+ "on u.user_id = m.\"senderId\" "
 			+ "where m.\"receiverId\" = ?1", nativeQuery = true)
 	public List<User> getUsersInConversationWithLoggedInUser(Integer userId);
 }

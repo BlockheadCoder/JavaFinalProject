@@ -1,7 +1,9 @@
 package ca.sheridancollege.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,23 +13,28 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import ca.sheridancollege.configurations.*;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 	
+	@Autowired
+	private LoginAccessDeniedHandler accessDeniedHandler;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.csrf().disable();
-        http.headers().frameOptions().disable();
+		http.headers().frameOptions().disable();
 		
 		http
 			.authorizeRequests()
-				.antMatchers("/", "/**").permitAll()
 				.antMatchers("/possibleConversations", "/possibleConversations/**").hasRole("ARTIST")
 				.antMatchers("/conversationAdd", "/conversationAdd/**").hasRole("ARTIST")
+				.antMatchers("/account", "/account/**").hasAnyRole("ARTIST","CUSTOMER")
+				.antMatchers("/", "/css/**", "/images/**", "/js/**", "/**").permitAll()
 				.anyRequest().authenticated()
 			.and()
 			.formLogin()
@@ -40,7 +47,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.clearAuthentication(true)
 				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 				.logoutSuccessUrl("/?logout")
-				.permitAll();
+				.permitAll()
+			.and()
+			.exceptionHandling()
+				.accessDeniedHandler(accessDeniedHandler);
 	}
 	
 	@Bean
