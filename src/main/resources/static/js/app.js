@@ -9,9 +9,9 @@ function connect(){
         stompClient.subscribe('/socketOut/'+myId+'/'+recId, function (data){
             console.log(data);
             var body = JSON.parse(data.body)
-            $(".messageHolder").append('<div class="messageLeft"><div class="theirMessage"><h3>'+body.message+'</h3></div></div>');
+            $("#messageHolder").append('<div id="messageLeft"><div class="sentMessage" id="theirMessage"><h3>'+body.message+'</h3></div></div>');
             
-            var d = $(".messageHolder");
+            var d = $("#messageHolder");
     		d.scrollTop(d.prop("scrollHeight"));
 
         });
@@ -29,9 +29,9 @@ function sendMessage() {
 
     message = $("#message").val();
 
-    $(".messageHolder").append('<div class="messageRight"><div class="myMessage"><h3>'+message+'</h3></div></div>');
+    $("#messageHolder").append('<div id="messageRight"><div class="sentMessage" id="myMessage"><h3>'+message+'</h3></div></div>');
 	
-	var d = $(".messageHolder");
+	var d = $("#messageHolder");
     d.scrollTop(d.prop("scrollHeight"));
     
 }
