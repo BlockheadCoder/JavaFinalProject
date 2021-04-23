@@ -11,9 +11,7 @@ public interface MessageRepo extends CrudRepository<Message, Integer>{
 
 	
 	
-	@Query(value = "SELECT * FROM public.messages\n"
-			+ "WHERE (\"senderId\"=?1 AND \"receiverId\"=?2) "
-			+ "OR (\"senderId\"=?2 AND \"receiverId\"=?1)")
+	@Query(value = "SELECT * FROM public.messages WHERE (\"senderId\"=?1 AND \"receiverId\"=?2) OR (\"senderId\"=?2 AND \"receiverId\"=?1)", nativeQuery = true)
 	public List<Message> getAllMessagesForSenderAndReciever(Integer userId, Integer recId);
 	
 }

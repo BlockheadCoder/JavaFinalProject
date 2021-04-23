@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.sheridancollege.beans.Message;
 import ca.sheridancollege.beans.Role;
 import ca.sheridancollege.beans.User;
 import ca.sheridancollege.repository.MessageRepo;
@@ -112,8 +113,27 @@ public class MainTroll {
 	@PostMapping("/message")
 	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
 		
-		model.addAttribute("myId",authentication.getName());
-		model.addAttribute("recId",recipientName);
+		model.addAttribute("myEmail",authentication.getName());
+		model.addAttribute("recipientEmail",recipientName);
+		
+		Integer myId = userRepo.findByName(authentication.getName()).getId();
+		Integer recId = userRepo.findByName(recipientName).getId();
+		
+		model.addAttribute("myId", myId);
+		
+		List<Message> allMessages = messageRepo.getAllMessagesForSenderAndReciever(myId, recId);
+		System.out.println("Message info");
+		System.out.println(allMessages.size());
+		System.out.println(allMessages.get(0).getReceiverId());
+		System.out.println(allMessages.get(0).getReceiverId().getClass());
+		System.out.println(allMessages.get(1).getReceiverId());
+		System.out.println(allMessages.get(1).getReceiverId().getClass());
+		System.out.println(allMessages.get(2).getReceiverId());
+		System.out.println(allMessages.get(2).getReceiverId().getClass());
+		
+		model.addAttribute("allMessages", allMessages);
+		
+		
 		
 		return "message.html";
 	}

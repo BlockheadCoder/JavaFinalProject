@@ -4,8 +4,8 @@
         <meta charset="ISO-8859-1">
         <title>Insert title here</title>
         <script>
-            var myId = "[[${myId}]]";
-            var recId = "[[${recId}]]";
+            var myId = "[[${myEmail}]]";
+            var recId = "[[${recipientEmail}]]";
         </script>
         <script type="text/javascript" src="/js/app.js"></script>
         <script src="/webjars/jquery/jquery.min.js"></script>
@@ -14,10 +14,32 @@
     </head>
     <body onload="connect()">
 
-        <h1>You are [[${myId}]]</h1>
-        <h1>Sending to [[${recId}]]</h1>
+        <h1>You are [[${myEmail}]]</h1>
+        <h1>Sending to [[${recipientEmail}]]</h1>
         
         <div class="messageHolder" id="messageHolder">
+
+            <div awfawf="awfa" th:each="message: ${allMessages}">
+                <hr>
+                <h3 th:text="${message.message}"></h3>
+                <h3 th:text="${message.receiverId}"></h3>
+                <h3 th:text="${myId}"></h3>
+                <hr>
+                
+                <div class="messageLeft" th:if="${message.receiverId==1}">
+                    <div class="sentMessage" id="theirMessage">
+                        <h3 th:text="${message.message}"></h3>
+                    </div>
+                </div>
+
+                <div class="messageRight" th:if="${message.senderId == myId}">
+                    <div class="sentMessage" id="myMessage">
+                        <h3 th:text="${message.message}"></h3>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
         
         <div id="right">
