@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+	Add user:
+	<br>
+	<ul>
+		<li th:each="user : ${allUsers}">
+			<a th:href="@{/conversationAdd/{userId}(userId=${user.id})}"> <font th:text="${user.name}"></font></a>
+		</li>
+	</ul>
+	
+	<a th:href="@{/account}">Home</a>
+
+</body>
+</html>

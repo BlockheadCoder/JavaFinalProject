@@ -26,6 +26,8 @@ public class MessageSocket {
 		System.out.println("Sending to "+"/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId());
 		simpMessagingTemplate.convertAndSend("/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId(), mesIn);
 		
+		//db insert goes here
+		
 		return new Message("hello");
 	}
 	

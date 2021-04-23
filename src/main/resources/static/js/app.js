@@ -1,9 +1,4 @@
-
-
 var stompClient = null;
-
-
-
 
 function connect(){
     var socket = new SockJS('/messages-websocket');
@@ -39,11 +34,4 @@ function sendMessage() {
 	var d = $(".messageHolder");
     d.scrollTop(d.prop("scrollHeight"));
     
-    console.log("hello");
-
-    stompClient.send("/app/usermessages/", {}, JSON.stringify(
-        {'message': message,
-        'senderId': myId,
-        'receiverId': recId}
-        ))
 }

@@ -5,9 +5,16 @@
     <title>Insert title here</title>
     </head>
     <body>
-        <form action="/login" method="get">
-            Who are you: <input type="text" name="loggedInUser" id="loggedInUser"></br>
-            Recipient:   <input type="text" name="recipient" id="recipient"></br>
+    	<div th:if="${param.error}">
+			<div class="alert">
+				Invalid Username or Password
+			</div>
+		</div>
+    
+        <form action="/login" method="POST">
+
+            Username: <input type="text" name="username" id="username"></br>
+            Password: <input type="text" name="password" id="password"></br>
             <input type="submit" value="Submit">
         </form>
     </body>

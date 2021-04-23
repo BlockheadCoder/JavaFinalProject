@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="ISO-8859-1">
-        <title>Messages</title>
+        <title>Insert title here</title>
         <script>
             var myId = "[[${myId}]]";
             var recId = "[[${recId}]]";
@@ -11,11 +11,13 @@
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/sockjs-client/sockjs.min.js"></script>
         <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        <link rel="stylesheet" type="text/css" medial="all" th:href="@{/css/styles.css}" />
     </head>
     <body onload="connect()">
+
         <h1>You are [[${myId}]]</h1>
         <h1>Sending to [[${recId}]]</h1>
-    
+        
         <div class="messageHolder" id="messageHolder">
         </div>
         
