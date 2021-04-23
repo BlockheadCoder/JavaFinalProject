@@ -7,35 +7,22 @@
             var myId = "[[${myId}]]";
             var recId = "[[${recId}]]";
         </script>
-        <script type="text/javascript" src="/app.js"></script>
+        <script type="text/javascript" src="/js/app.js"></script>
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/sockjs-client/sockjs.min.js"></script>
         <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-
-        <style>
-            .messageHolder{
-                overflow: scroll;
-                border: 1px solid black;
-            }
-
-            .myMessage{
-                display: flex; 
-                justify-content: flex-end;
-            }
-
-        </style>
     </head>
     <body onload="connect()">
 
         <h1>You are [[${myId}]]</h1>
         <h1>Sending to [[${recId}]]</h1>
-        Message: <input type="text" id="message" />
-        <input type="button" value="Send Message" onclick="sendMessage()">
-    
-        <div class="messageHolder" id="messageHolder" syle="overflow: auto" >
-
+        
+        <div class="messageHolder" id="messageHolder">
+        </div>
+        
+        <div id="right">
+        	<span>Message:</span> <input type="text" id="message" />
+        	<input type="button" value="Send Message" onclick="sendMessage()">
         </div>
     </body>
-
-    
 </html>
