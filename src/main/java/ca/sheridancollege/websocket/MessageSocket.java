@@ -11,12 +11,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ca.sheridancollege.beans.Message;
+import ca.sheridancollege.repository.MessageRepo;
 
 @Controller
 public class MessageSocket {
 
 	@Autowired
 	private SimpMessagingTemplate simpMessagingTemplate;
+	
+	@Autowired
+	private MessageRepo mRepo;
 	
 	@MessageMapping("/usermessages/")
 	public Message message(Message mesIn) throws Exception{
@@ -27,6 +31,7 @@ public class MessageSocket {
 		simpMessagingTemplate.convertAndSend("/socketOut/"+mesIn.getReceiverId()+"/"+mesIn.getSenderId(), mesIn);
 		
 		//db insert goes here
+		mRepo.save(mesIn);
 		
 		return new Message("hello");
 	}

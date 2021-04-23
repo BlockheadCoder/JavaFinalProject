@@ -106,8 +106,9 @@ public class MainTroll {
 	@PostMapping("/message")
 	public String message2(Authentication authentication, @RequestParam String recipientName, Model model){
 		
-		model.addAttribute("myId",authentication.getName());
-		model.addAttribute("recId",recipientName);
+		//UPDATED to use IDs instead of names
+		model.addAttribute("myId", userRepo.findByName(authentication.getName()).getId()); 
+		model.addAttribute("recId", userRepo.findByName(recipientName).getId());
 		
 		return "message.html";
 	}

@@ -23,15 +23,15 @@ public class Message {
 	private String message;
 	
 	@Column(name="\"senderId\"")
-	private String senderId;
+	private int senderId;
 	
 	@Column(name="\"receiverId\"")
-	private String receiverId;
+	private int receiverId;
 	
 	private Boolean seen;
-	private String created_at; //changed to date
+	private Date created_at; //changed to date
 	
-	public Message(String input, String senderId, String receiverId) {
+	public Message(String input, int senderId, int receiverId) {
 		this.message = input;
 		this.senderId = senderId;
 		this.receiverId = receiverId;
