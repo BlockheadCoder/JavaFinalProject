@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" medial="all" th:href="@{/css/styles.css}" />
 </head>
     <body>
+		<img src="/images/logo.png" alt="Logo">
 
         <h1>My name is <span th:text="${loggedInUser}"></span></h1>
         
@@ -18,7 +19,6 @@
 	        	<li th:if="${newUser != null}">
 	        		<input type="submit" name="recipientName" th:value="${newUser.name}">
 	        	</li>
-        
         	</ul>
         </form>
         
